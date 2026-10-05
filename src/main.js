@@ -1,3 +1,5 @@
+import { initTestPanel } from './test-panel.js';
+
 const defaults = { chamber: 52, throat: 35, bell: 72, length: 64, accent: '#f4a261' };
 const presets = {
   balanced: { chamber: 52, throat: 35, bell: 72, length: 64 },
@@ -14,8 +16,8 @@ app.innerHTML = `
   </header>
   <main>
     <section class="intro">
-      <div><div class="eyebrow">PARAMETRIC VISUALIZER <span>•</span> VERSION 0.1</div><h1>Shape the concept.</h1><p>Explore how changing proportions alters a simplified engine cutaway.</p></div>
-      <div class="notice"><span class="notice-icon">ⓘ</span><div><strong>Concept model only</strong><p>Controls use normalized visual values. No physical units, performance predictions, or build specifications.</p></div></div>
+      <div><div class="eyebrow">PARAMETRIC VISUALIZER <span>•</span> VERSION 0.2</div><h1>Shape the concept.</h1><p>Explore how changing proportions alters a simplified engine cutaway.</p></div>
+      <div class="notice"><span class="notice-icon">ⓘ</span><div><strong>Educational concept model</strong><p>Explore shapes and ideal cold-gas estimates. Assumed values, not validated engine performance.</p></div></div>
     </section>
     <section class="workspace">
       <aside class="panel controls">
@@ -35,13 +37,14 @@ app.innerHTML = `
         <div class="legend"><span><i class="legend-shell"></i> Outer structure</span><span><i class="legend-core"></i> Interior profile</span><span><i class="legend-axis"></i> Centerline</span><span class="legend-note">Drag controls to explore</span></div>
       </section>
     </section>
-    <section class="bottom-row"><div class="panel summary"><div class="eyebrow">MODEL SNAPSHOT</div><div class="metrics"><div><span>Profile</span><strong id="profileName">Balanced</strong></div><div><span>Chamber</span><strong id="chamberMetric">52 <small>/ 100</small></strong></div><div><span>Throat</span><strong id="throatMetric">35 <small>/ 100</small></strong></div><div><span>Exit</span><strong id="bellMetric">72 <small>/ 100</small></strong></div><div><span>Nozzle length</span><strong id="lengthMetric">64 <small>/ 100</small></strong></div></div></div><div class="panel next-card"><div class="next-icon">↗</div><div><div class="eyebrow">NEXT ITERATION</div><p>Future versions could add labeled layers, comparison views, and shareable concept files.</p></div></div></section>
-    <footer><span>ROCKET CONCEPT STUDIO <b>0.1.0</b></span><span>Open source starter · <a href="https://github.com/livonianerd/rocket-concept-studio" target="_blank" rel="noreferrer">View on GitHub</a></span></footer>
+    <section class="bottom-row"><div class="panel summary"><div class="eyebrow">MODEL SNAPSHOT</div><div class="metrics"><div><span>Profile</span><strong id="profileName">Balanced</strong></div><div><span>Chamber</span><strong id="chamberMetric">52 <small>/ 100</small></strong></div><div><span>Throat</span><strong id="throatMetric">35 <small>/ 100</small></strong></div><div><span>Exit</span><strong id="bellMetric">72 <small>/ 100</small></strong></div><div><span>Nozzle length</span><strong id="lengthMetric">64 <small>/ 100</small></strong></div></div></div><div class="panel next-card"><div class="next-icon">↗</div><div><div class="eyebrow">COMPARE DESIGNS</div><p>Run a virtual cold-gas test below. Compare thrust and specific impulse at the same chamber volume.</p></div></div></section>
+    <section class="panel test-panel" id="test-panel" aria-label="Educational test run"></section>
+    <footer><span>ROCKET CONCEPT STUDIO <b>0.2.0</b></span><span>Open source starter · <a href="https://github.com/livonianerd/rocket-concept-studio" target="_blank" rel="noreferrer">View on GitHub</a></span></footer>
   </main>`;
 
 const fields = ['chamber', 'throat', 'bell', 'length'];
 const $ = (id) => document.getElementById(id);
-const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+const invalidateTest = initTestPanel(() => ({ ...model }), presets);
 
 function pointsForModel() {
   const cx = 355, y = 180;
@@ -59,6 +62,7 @@ function pointsForModel() {
 }
 
 function render() {
+  invalidateTest();
   const g = pointsForModel();
   $('engine').innerHTML = `
     <defs><linearGradient id="shellFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#62747a" stop-opacity=".34"/><stop offset=".5" stop-color="#283940" stop-opacity=".52"/><stop offset="1" stop-color="#62747a" stop-opacity=".34"/></linearGradient><linearGradient id="coreFill" x1="0" x2="1"><stop offset="0" stop-color="#f4a261" stop-opacity=".07"/><stop offset=".65" stop-color="#f4a261" stop-opacity=".24"/><stop offset="1" stop-color="#ffcf87" stop-opacity=".42"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>

@@ -43,7 +43,41 @@ test('desktop and mobile layouts fit the screen', async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('./');
     await expect(page.locator('#engine')).toBeVisible();
+    await page.getByRole('button', { name: 'Run test & compare' }).click();
+    await expect(page.locator('#test-results')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await expect(page.getByRole('button', { name: 'Export JSON' })).toBeVisible();
   }
+});
+
+test('virtual test compares designs fairly, exports assumptions, and invalidates stale results', async ({ page }) => {
+  await page.goto('./');
+  const run = page.getByRole('button', { name: 'Run test & compare' });
+  await expect(page.getByRole('button', { name: 'Export test report' })).toBeDisabled();
+  await run.click();
+  await expect(page.locator('#test-status')).toContainText('Complete');
+  await expect(page.locator('#test-winner')).toContainText('Current shape + Balanced');
+  await expect(page.locator('#test-winner')).toContainText('(tie)');
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export test report' }).click();
+  const download = await downloadPromise;
+  const report = JSON.parse(await readFile(await download.path(), 'utf8'));
+  expect(report.assumptions.chamberVolumeL).toBe(1);
+  expect(report.assumptions.ambientPressurePa).toBe(0);
+  expect(report.results).toHaveLength(4);
+  expect(new Set(report.results.map(r => r.massFlowKgPerS)).size).toBe(1);
+  expect(report.results[0].thrustN).toBeGreaterThan(0);
+  expect(report.results[0].specificImpulseS).toBeGreaterThan(0);
+  await page.getByLabel('Equal gas flow for every design').uncheck();
+  await expect(page.locator('#test-results')).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Export test report' })).toBeDisabled();
+  await run.click();
+  await expect(page.locator('#test-winner')).toContainText('Wide bell');
+  await page.locator('#bell').focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('#test-status')).toContainText('Inputs changed');
+  await expect(page.locator('#test-results')).toBeHidden();
+  await run.click();
+  await page.getByRole('button', { name: 'Reset', exact: true }).click();
+  await expect(page.locator('#test-results')).toBeHidden();
 });

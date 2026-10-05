@@ -8,6 +8,12 @@ A small, open source, browser-based visualizer for exploring **non-operational r
 
 The geometry sliders are normalized visual proportions. The optional educational test panel estimates ideal nitrogen cold-gas performance using an explicitly assumed scale; these are not validated predictions for real hardware. There is no combustion, structural analysis, or manufacturing model.
 
+## Electric-pump feed illustration
+
+The LOX/kerosene diagram shows separate tanks and pumps, two electric motors, a battery and motor controllers, followed by the injector, combustion chamber and nozzle. Animate/pause illustrates flow direction only; reduced-motion preferences are respected. This is a conceptual diagram, not a plumbing or startup sequence. Valves, pressurization, cooling and ignition are omitted.
+
+LOX is the oxidizer; kerosene is the example fuel. Electricity drives the pumps, while combustion supplies exhaust energy. This illustration is separate from the nitrogen test model below: its results must not be interpreted as LOX/kerosene performance.
+
 ## Educational test run
 
 Click **Run test & compare** to calculate a five-second steady-flow example for the current shape and all three presets. The panel reports thrust (N), specific impulse (s), gas flow (g/s), total impulse (N·s), and gas consumed (g). Results and their assumptions can be exported separately from the visual model.

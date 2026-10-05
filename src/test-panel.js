@@ -3,7 +3,7 @@ import { assumptions, simulate } from './simulation.js';
 export function initTestPanel(getModel, presets) {
   const panel = document.getElementById('test-panel');
   panel.innerHTML = `
-    <div class="test-heading"><div><div class="eyebrow">03 / EDUCATIONAL SIMULATION</div><h2>Run a virtual test</h2></div><span class="view-tag">NITROGEN · VACUUM</span></div>
+    <div class="test-heading"><div><div class="eyebrow">04 / EDUCATIONAL SIMULATION</div><h2>Run a virtual test</h2></div><span class="view-tag">NITROGEN · VACUUM</span></div>
     <p class="test-description">Compare your current shape with all three presets in a 5-second, steady-state cold-gas test. Every design uses the same 1 L chamber.</p>
     <div class="assumption-chips"><span>500 kPa absolute</span><span>300 K</span><span>0 Pa ambient</span><span>Constant external gas supply</span></div>
     <div class="test-actions"><label class="flow-toggle"><input id="equal-flow" type="checkbox" checked> Equal gas flow for every design</label><button class="button export" id="run-test">Run test & compare</button><button class="button" id="export-test" disabled>Export test report</button></div>

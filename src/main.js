@@ -1,3 +1,4 @@
+import { initFeedDiagram } from './feed-diagram.js';
 import { initTestPanel } from './test-panel.js';
 
 const defaults = { chamber: 52, throat: 35, bell: 72, length: 64, accent: '#f4a261' };
@@ -38,12 +39,14 @@ app.innerHTML = `
       </section>
     </section>
     <section class="bottom-row"><div class="panel summary"><div class="eyebrow">MODEL SNAPSHOT</div><div class="metrics"><div><span>Profile</span><strong id="profileName">Balanced</strong></div><div><span>Chamber</span><strong id="chamberMetric">52 <small>/ 100</small></strong></div><div><span>Throat</span><strong id="throatMetric">35 <small>/ 100</small></strong></div><div><span>Exit</span><strong id="bellMetric">72 <small>/ 100</small></strong></div><div><span>Nozzle length</span><strong id="lengthMetric">64 <small>/ 100</small></strong></div></div></div><div class="panel next-card"><div class="next-icon">↗</div><div><div class="eyebrow">COMPARE DESIGNS</div><p>Run a virtual cold-gas test below. Compare thrust and specific impulse at the same chamber volume.</p></div></div></section>
+    <section class="panel feed-panel" id="feed-panel" aria-label="Electric pump feed system"></section>
     <section class="panel test-panel" id="test-panel" aria-label="Educational test run"></section>
     <footer><span>ROCKET CONCEPT STUDIO <b>0.2.0</b></span><span>Open source starter · <a href="https://github.com/livonianerd/rocket-concept-studio" target="_blank" rel="noreferrer">View on GitHub</a></span></footer>
   </main>`;
 
 const fields = ['chamber', 'throat', 'bell', 'length'];
 const $ = (id) => document.getElementById(id);
+initFeedDiagram();
 const invalidateTest = initTestPanel(() => ({ ...model }), presets);
 
 function pointsForModel() {

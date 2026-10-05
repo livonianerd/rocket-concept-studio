@@ -10,7 +10,7 @@ The geometry sliders are normalized visual proportions. The optional educational
 
 ## Electric-pump feed illustration
 
-The LOX/kerosene diagram shows separate tanks and pumps, two electric motors, a battery and motor controllers, followed by the injector, combustion chamber and nozzle. Animate/pause illustrates flow direction only; reduced-motion preferences are respected. This is a conceptual diagram, not a plumbing or startup sequence. Valves, pressurization, cooling and ignition are omitted.
+The LOX/kerosene diagram shows separate tanks and pumps, two electric motors, a battery and motor controllers, followed by the injector, combustion chamber and nozzle. Start engine demo spins both motors and pumps, lights the chamber and exhaust plume, and drains the illustrated tanks over an arbitrary 20 seconds. Stop holds the remaining levels, resume continues, and Refill & reset restores both tanks and stops the demo. Empty tanks automatically stop the motors and flame. Tank percentages are relative to each tank; no mixture ratio, mass consumption or physical motor speed is implied. Reduced-motion preferences disable rotation and flame motion while retaining static running indicators and tank readouts. This is a conceptual diagram, not a plumbing or startup sequence. Valves, pressurization, cooling and ignition are omitted.
 
 LOX is the oxidizer; kerosene is the example fuel. Electricity drives the pumps, while combustion supplies exhaust energy. This illustration is separate from the nitrogen test model below: its results must not be interpreted as LOX/kerosene performance.
 
